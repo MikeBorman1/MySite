@@ -1,6 +1,6 @@
 ---
 name: Mike Borman
-avatar: /images/myfacepp.png
+avatar: /images/myfaceppgray.png
 occupation: Write, Content creator and Developer on Cardano
 company: Adapulse
 email: mikeborman.ada@gmail.com
