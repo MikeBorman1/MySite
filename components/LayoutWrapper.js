@@ -16,9 +16,6 @@ const LayoutWrapper = ({ children }) => {
           <div>
             <Link href="/" aria-label={siteMetadata.headerTitle}>
               <div className="flex items-center justify-between">
-                <div className="mr-3">
-                  <Logo />
-                </div>
                 {typeof siteMetadata.headerTitle === 'string' ? (
                   <div className="hidden h-6 text-2xl font-semibold sm:block">
                     {siteMetadata.headerTitle}
@@ -43,7 +40,7 @@ const LayoutWrapper = ({ children }) => {
                         open(link.href, '_blank')
                       }
                     }}
-                    className="p-1 font-medium text-primary-500 sm:p-4"
+                    className="rounded-md p-1 py-0.5 px-0.5 font-medium text-primary-500 hover:bg-teal-500 hover:text-white sm:p-4"
                     rel="noreferrer"
                   >
                     {link.title}
@@ -52,7 +49,7 @@ const LayoutWrapper = ({ children }) => {
                   <Link
                     key={link.title}
                     href={link.href}
-                    className="p-1 font-medium text-gray-900 dark:text-gray-100 sm:p-4"
+                    className="rounded-md p-1 py-0.5 px-0.5 font-medium text-gray-900 hover:bg-teal-500 hover:text-white dark:text-gray-100 sm:p-4"
                   >
                     {link.title}
                   </Link>
