@@ -1,37 +1,70 @@
+import fs from 'fs'
 import PageTitle from '@/components/PageTitle'
-import { BuilderComponent, BuilderContent, builder } from '@builder.io/react'
-import '../../builder.config'
+import generateRss from '@/lib/generate-rss'
+import { MDXLayoutRenderer } from '@/components/MDXComponents'
+import { formatSlug, getAllFilesFrontMatter, getFileBySlug, getFiles } from '@/lib/mdx'
 
-builder.init('ccda6c7abf4c4b8195aa67d47de420dd')
+const DEFAULT_LAYOUT = 'PostLayout'
 
 export async function getStaticPaths() {
-  const posts = await builder.getAll('blog-post', {
-    fields: 'data.slug',
-  })
+  const posts = getFiles('blog')
   return {
-    paths: posts.map(({ data }) => ({
+    paths: posts.map((p) => ({
       params: {
-        slug: data.slug?.split('/') || '',
+        slug: formatSlug(p).split('/'),
       },
     })),
-    fallback: 'blocking',
+    fallback: false,
   }
 }
 
 export async function getStaticProps({ params }) {
-  const post = await builder
-    .get('blog-post', {
-      query: {
-        slug: params.slug.join('/'),
-      },
-    })
-    .promise()
+  const allPosts = await getAllFilesFrontMatter('blog')
+  const postIndex = allPosts.findIndex((post) => formatSlug(post.slug) === params.slug.join('/'))
+  const prev = allPosts[postIndex + 1] || null
+  const next = allPosts[postIndex - 1] || null
+  const post = await getFileBySlug('blog', params.slug.join('/'))
+  const authorList = post.frontMatter.authors || ['default']
+  const authorPromise = authorList.map(async (author) => {
+    const authorResults = await getFileBySlug('authors', [author])
+    return authorResults.frontMatter
+  })
+  const authorDetails = await Promise.all(authorPromise)
 
-  return { props: { post: post || null } }
+  // rss
+  if (allPosts.length > 0) {
+    const rss = generateRss(allPosts)
+    fs.writeFileSync('./public/feed.xml', rss)
+  }
+
+  return { props: { post, authorDetails, prev, next } }
 }
 
-export default function Blog({ post }) {
-  // TODO: add your own 404 page/handling like described
-  // here: https://www.builder.io/c/docs/integrating-builder-pages
-  return <BuilderComponent model="blog-post" content={post} />
+export default function Blog({ post, authorDetails, prev, next }) {
+  const { mdxSource, toc, frontMatter } = post
+
+  return (
+    <>
+      {frontMatter.draft !== true ? (
+        <MDXLayoutRenderer
+          layout={frontMatter.layout || DEFAULT_LAYOUT}
+          toc={toc}
+          mdxSource={mdxSource}
+          frontMatter={frontMatter}
+          authorDetails={authorDetails}
+          prev={prev}
+          next={next}
+        />
+      ) : (
+        <div className="mt-24 text-center">
+          <PageTitle>
+            Under Construction{' '}
+            <span role="img" aria-label="roadwork sign">
+              🚧
+            </span>
+          </PageTitle>
+        </div>
+      )}
+    </>
+  )
 }

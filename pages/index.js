@@ -1,101 +1,66 @@
-import Link from '@/components/Link'
-import { PageSEO } from '@/components/SEO'
-import Tag from '@/components/Tag'
-import siteMetadata from '@/data/siteMetadata'
-import { getAllFilesFrontMatter } from '@/lib/mdx'
-import formatDate from '@/lib/utils/formatDate'
+import * as React from 'react'
+import { SocialIconRow } from '@/components/social-icons'
+import BlogPostCard from '@/components/BlogCard'
+import Image from 'next/image'
+import { useState, useEffect } from 'react'
 
-import NewsletterForm from '@/components/NewsletterForm'
+import { FixedSizeList } from 'react-window'
 
-const MAX_DISPLAY = 5
-
-export async function getStaticProps() {
-  const posts = await getAllFilesFrontMatter('blog')
-
-  return { props: { posts } }
-}
-
-export default function Home({ posts }) {
+export default function MyComponent(props) {
   return (
     <>
-      <PageSEO title={siteMetadata.title} description={siteMetadata.description} />
-      <div className="divide-y divide-gray-200 dark:divide-gray-700">
-        <div className="space-y-2 pt-6 pb-8 md:space-y-5">
-          <h1 className="text-3xl font-extrabold leading-9 tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-10 md:text-6xl md:leading-14">
-            Latest
-          </h1>
-          <p className="text-lg leading-7 text-gray-500 dark:text-gray-400">
-            {siteMetadata.description}
-          </p>
+      <div className="container mx-auto flex flex-col">
+        <div className="container mx-auto flex">
+          <div className="w-1/2 pr-4">
+            <div className="text-4xl font-bold">Mike Borman</div>
+            <div className="mt-2 text-lg">Writer, Content Creator and Developer on Cardano</div>
+          </div>
+          <div className="flex w-1/2 flex-col justify-center">
+            <div className="max-w-48 mx-auto my-auto max-h-48">
+              <Image
+                src="/images/myfaceppgray.png"
+                alt="Picture of the author"
+                className="max-w-48 max-h-48"
+                width="150"
+                height="150"
+                unoptimized={true}
+              />
+            </div>
+            <div className="mt-4">
+              <SocialIconRow className="social-icon-row" />
+            </div>
+          </div>
         </div>
-        <ul className="divide-y divide-gray-200 dark:divide-gray-700">
-          {!posts.length && 'No posts found.'}
-          {posts.slice(0, MAX_DISPLAY).map((frontMatter) => {
-            const { slug, date, title, summary, tags } = frontMatter
-            return (
-              <li key={slug} className="py-12">
-                <article>
-                  <div className="space-y-2 xl:grid xl:grid-cols-4 xl:items-baseline xl:space-y-0">
-                    <dl>
-                      <dt className="sr-only">Published on</dt>
-                      <dd className="text-base font-medium leading-6 text-gray-500 dark:text-gray-400">
-                        <time dateTime={date}>{formatDate(date)}</time>
-                      </dd>
-                    </dl>
-                    <div className="space-y-5 xl:col-span-3">
-                      <div className="space-y-6">
-                        <div>
-                          <h2 className="text-2xl font-bold leading-8 tracking-tight">
-                            <Link
-                              href={`/blog/${slug}`}
-                              className="text-gray-900 dark:text-gray-100"
-                            >
-                              {title}
-                            </Link>
-                          </h2>
-                          <div className="flex flex-wrap">
-                            {tags.map((tag) => (
-                              <Tag key={tag} text={tag} />
-                            ))}
-                          </div>
-                        </div>
-                        <div className="prose max-w-none text-gray-500 dark:text-gray-400">
-                          {summary}
-                        </div>
-                      </div>
-                      <div className="text-base font-medium leading-6">
-                        <Link
-                          href={`/blog/${slug}`}
-                          className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-                          aria-label={`Read "${title}"`}
-                        >
-                          Read more &rarr;
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                </article>
-              </li>
-            )
-          })}
-        </ul>
+        <div className="mt-8">
+          <div className="text-3xl font-bold">Featured Blogs</div>
+          <div className="align-items-stretch mt-4 grid h-full grid-cols-3 gap-4">
+            <div className="row-auto h-full">
+              <BlogPostCard
+                title="The Hydra Protocol Family — Scaling and Network Optimization for the Cardano Blockchain"
+                slug="the-hydra-protocol-family-scaling-and-network-optimization-for-the-cardano-blockchain"
+                imageslug="/images/hydra.png"
+                className="blog-post-card"
+              />
+            </div>
+            <div className="row-auto h-full">
+              <BlogPostCard
+                title="Ouroboros, A deep dive for non PhDs"
+                slug="ouroboros-a-deep-dive-for-non-phd"
+                imageslug="/images/ourobouros.png"
+                className="blog-post-card"
+              />
+            </div>
+            <div className="row-auto h-full">
+              <BlogPostCard
+                title="The Extensive guide on EUTxO, UTxO and the accounts-based model"
+                slug="the-extensive-guide-on-eutxo-utxo-and-the-accounts-based-model"
+                imageslug="/images/eutxo.jpg"
+                className="blog-post-card"
+              />
+            </div>
+          </div>
+        </div>
       </div>
-      {posts.length > MAX_DISPLAY && (
-        <div className="flex justify-end text-base font-medium leading-6">
-          <Link
-            href="/blog"
-            className="text-primary-500 hover:text-primary-600 dark:hover:text-primary-400"
-            aria-label="all posts"
-          >
-            All Posts &rarr;
-          </Link>
-        </div>
-      )}
-      {siteMetadata.newsletter.provider !== '' && (
-        <div className="flex items-center justify-center pt-4">
-          <NewsletterForm />
-        </div>
-      )}
     </>
   )
 }
