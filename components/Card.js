@@ -1,5 +1,6 @@
 import Image from './Image'
 import Link from './Link'
+import { Builder } from '@builder.io/react'
 
 const Card = ({ title, description, imgSrc, href }) => (
   <div className="md p-4" style={{ maxWidth: '544px' }}>
@@ -54,3 +55,7 @@ const Card = ({ title, description, imgSrc, href }) => (
 )
 
 export default Card
+
+Builder.registerComponent(Card, {
+  name: 'Card',
+})
