@@ -52,9 +52,9 @@ export default function MyComponent(props) {
             </div>
             <div className="row-auto h-full">
               <BlogPostCard
-                title="Ouroboros, A deep dive for non PhDs"
-                slug="ouroboros-a-deep-dive-for-non-phd"
-                imageslug="/images/ourobouros.png"
+                title="The Extensive guide on EUTxO, UTxO and the accounts-based model"
+                slug="the-extensive-guide-on-eutxo-utxo-and-the-accounts-based-model"
+                imageslug="/images/eutxo.jpg"
                 className="blog-post-card"
               />
             </div>

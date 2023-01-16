@@ -6,7 +6,6 @@ import SectionContainer from './SectionContainer'
 import Footer from './Footer'
 import MobileNav from './MobileNav'
 import ThemeSwitch from './ThemeSwitch'
-import { Builder } from '@builder.io/react'
 
 const LayoutWrapper = ({ children }) => {
   return (
@@ -34,12 +33,6 @@ const LayoutWrapper = ({ children }) => {
                     href={link.href}
                     key={link.href}
                     target="_blank"
-                    onClick={() => {
-                      // Allow opening this from the Builder.io editor
-                      if (Builder.isEditing) {
-                        open(link.href, '_blank')
-                      }
-                    }}
                     className="rounded-md p-1 py-0.5 px-0.5 font-medium text-primary-500 hover:bg-teal-500 hover:text-white sm:p-4"
                     rel="noreferrer"
                   >
