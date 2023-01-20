@@ -2,9 +2,9 @@ import * as React from 'react'
 import { SocialIconRow } from '@/components/social-icons'
 import BlogPostCard from '@/components/BlogCard'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useState, useEffect } from 'react'
-
-import { FixedSizeList } from 'react-window'
+import CarouselContainer from '@/components/YoutubeCarousele'
 
 export default function MyComponent(props) {
   return (
@@ -59,6 +59,34 @@ export default function MyComponent(props) {
               />
             </div>
           </div>
+          <div className="mt-6 flex h-6 items-center rounded-lg leading-7 text-gray-600 transition-all hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200">
+            <Link href="/blog">
+              <a>
+                {'Read all posts'}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  className="ml-1 h-6 w-6"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17.5 12h-15m11.667-4l3.333 4-3.333-4zm3.333 4l-3.333 4 3.333-4z"
+                  />
+                </svg>
+              </a>
+            </Link>
+          </div>
+        </div>
+        <div className="mt-36 text-3xl font-bold">Latest Cardano Explored Episodes</div>
+        <div className="mt-5">
+          <CarouselContainer
+            playlistId="PL67adn4YrG9lToXrvpxBpIuUU9YSiOQNQ"
+            apiKey={process.env.NEXT_PUBLIC_GOOGLE}
+          />
         </div>
       </div>
     </>
