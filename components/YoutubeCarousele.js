@@ -9,30 +9,22 @@ const CarouselContainer = ({ playlistId, apiKey }) => {
   useEffect(() => {
     axios
       .get(
-        `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${playlistId}&key=${apiKey}`
+        `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${playlistId}&key=${apiKey}&maxResults=50`
       )
-      .then((res) => setVideos(res.data.items))
+      .then((res) => setVideos(res.data.items.slice(-5).reverse()))
   }, [playlistId, apiKey])
 
-  const lastFiveVideos = videos.reverse()
-
   return (
-    <div className="relative px-4 pt-16 pb-20 sm:px-6 sm:pt-24 sm:pb-28 ">
-      <div className="absolute top-0 left-0 right-0">
-        <div className="relative h-1/3 sm:h-2/3">
-          <Carousel
-            showThumbs={false}
-            showArrows={true}
-            className="border-t-100 rounded-md  border-2 border-teal-400"
-          >
-            {lastFiveVideos.map((video, index) => (
-              <div key={index}>
+    <div className="  mt-6 h-full">
+      <div>
+        <div>
+          <Carousel showThumbs={true} showArrows={true} dynamicHeight={true}>
+            {videos.map((video, index) => (
+              <div key={index} className="">
                 <iframe
                   title={video.snippet.title}
-                  width="100%"
-                  height="100%"
+                  height="500"
                   src={`https://www.youtube.com/embed/${video.snippet.resourceId.videoId}`}
-                  frameBorder="0"
                   allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                 ></iframe>
