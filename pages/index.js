@@ -36,9 +36,9 @@ export default function MyComponent(props) {
           <div className="align-items-stretch mt-4 grid h-full grid-cols-3 gap-4">
             <div className="row-auto h-full">
               <BlogPostCard
-                title="The Hydra Protocol Family — Scaling and Network Optimization for the Cardano Blockchain"
-                slug="the-hydra-protocol-family-scaling-and-network-optimization-for-the-cardano-blockchain"
-                imageslug="/images/hydra.png"
+                title="Navigating the Cardano Development Landscape: What are the options? | Developer Diary #2"
+                slug="navigating-the-cardano-development-landscape-what-are-the-options-developer-diary-2"
+                imageslug="/images/devtool.jpg"
                 className="blog-post-card"
               />
             </div>
