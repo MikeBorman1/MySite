@@ -14,6 +14,9 @@ export default function MyComponent(props) {
           <div className="w-1/2 pr-4">
             <div className="text-4xl font-bold">Mike Borman</div>
             <div className="mt-2 text-lg">Writer, Content Creator and Developer on Cardano</div>
+            <Link href="https://medium.com/@mikeborman">
+              <a className="px-2 py-1 text-blue-500 underline">Check out My medium</a>
+            </Link>
           </div>
           <div className="flex w-1/2 flex-col justify-center">
             <div className="max-w-48 mx-auto my-auto max-h-48">
